@@ -4,10 +4,26 @@ const cors = require('cors')
 const multer  = require('multer')
 const dotenv = require('dotenv');
 
+const sgMail = require('@sendgrid/mail');
+const { SENDGRID_API_KEY } = process.env;
+
+sgMail.setApiKey(SENDGRID_API_KEY);
+
+const mail = {
+  to: 'alekspavlov30088@gmail.com',
+  from: 'pavlovaleksandr@ukr.net',
+  subject: 'Sending with Twilio SendGrid is Fun',
+  html: 'and easy to do anywhere, even with Node.js',
+}
+
+
+
 dotenv.config();
 
 const multerConfig = multer.diskStorage({
 })
+
+
 
 
 
