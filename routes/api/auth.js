@@ -22,7 +22,9 @@ router.get('/logout', authenticate, ctrl.logout)
 
 router.patch('/avatars', authenticate, upload.single("avatar"), ctrl.updateAvatar)
 
+router.get('/verify/:verificationToken', ctrl.verify)
 
+router.post('/verify', validateBody(schemas.verifySchema), ctrl.repeatEmailVerify)
 
 
 
