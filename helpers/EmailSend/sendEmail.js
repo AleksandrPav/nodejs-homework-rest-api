@@ -1,30 +1,14 @@
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
 
-const { META_PASSWORD } = process.env;
+const { SENDGRID_API_KEY } = process.env;
 
-const nodemailerConfig = {
-  host: 'smtp.meta.ua',
-  port: 465,
-  secure: true,
-  auth: {
-    user: 'oleksandr_pavlov_88@meta.ua',
-    pass: META_PASSWORD,
-  },
-}
+sgMail.setApiKey(SENDGRID_API_KEY);
 
-const transporter = nodemailer.createTransport(nodemailerConfig);
-/*
-const data = {
-  to: 'alekspavlov30088@gmail.com',
-  subject: 'Sending with Twilio SendGrid is Fun',
-  html: 'and easy to do anywhere, even with Node.js',
-}
-*/
 const sendEmail = async (data) => {
-    const mail = { ...data, from: 'oleksandr_pavlov_88@meta.ua', };
-    return await transporter.sendMail(mail);
+    const mail = { ...data, from: 'pavlovaleksandr@ukr.net' };
+    await sgMail.send(mail);
     return true;
-}
+};
 
-  
 module.exports = sendEmail;
+

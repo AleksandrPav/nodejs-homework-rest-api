@@ -3,6 +3,7 @@ const { Schema, model } = require('mongoose');
 const Joi = require('joi')
 
 const { handleSaveErrors } = require('../helpers/Errors');
+const { verify } = require('jsonwebtoken');
 const emailRegexp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 const userSchema = new Schema({
@@ -34,6 +35,14 @@ const userSchema = new Schema({
         type: String,
         required: true,
     },
+    verify: {
+    type: Boolean,
+    default: false,
+  },
+  verificationToken: {
+    type: String,
+    required: [true, 'Verify token is required'],
+  },
 }
     , {
         versionKey: false,
@@ -72,11 +81,19 @@ const loginSchema = Joi.object({
     }),
 })
 
+const verifySchema = Joi.object({
+    email: Joi.string().pattern(emailRegexp).required().messages({
+        'string.email': 'Email should be valid',
+        'string.empty': 'Email is required',
+        'any.required': 'Email is required',
+    }),
+})
 
 
 const schemas = {
     registerSchema,
     loginSchema,
+    verifySchema
 }
 
 module.exports = {
